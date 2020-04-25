@@ -3,18 +3,18 @@ services:
   - docker
 
 env:
-  - NODE_VERSION=8-jessie
-#  - NODE_VERSION=10-jessie
+  - $DOCKER_USERNAME=8-jessie
+#  - $DOCKER_USERNAME=10-jessie
 #  - NPM_TARGET=test
 #  - NPM_TARGET=lint
 #  - NPM_TARGET=coverage
 
 script:
   - docker login -u "$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker build -t node:$NODE_VERSION --build-arg=NODE_IMAGE=node:${NODE_VERSION} .
+  - docker build -t node:$$DOCKER_USERNAME --build-arg=NODE_IMAGE=node:$DOCKER_USERNAME .
   - docker images
-  - docker tag node:$NODE_VERSION ${DOCKER_USERNAME}/probot-hello:${NODE_VERSION}-$(git rev-parse HEAD)
-  - docker push  ${DOCKER_USERNAME}/probot-hello:${NODE_VERSION}-$(git rev-parse HEAD)
+  - docker tag node:$$DOCKER_USERNAME $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD)
+  - docker push  $DOCKER_USERNAME/probot-hello:$$DOCKER_USERNAME-$(git rev-parse HEAD)
 
 stages:
   - test
@@ -26,24 +26,24 @@ jobs:
       name: "Test 8-jessie"
       install: skip
       script:
-        - docker run --rm ${DOCKER_USERNAME}/probot-hello:${NODE_VERSION}-$(git rev-parse HEAD) npm run $NPM_TARGET
+        - docker run --rm $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD) npm run $NPM_TARGET
       env:
-        - NODE_VERSION=8-jessie
+        - $DOCKER_USERNAME=8-jessie
         - NPM_TARGET=test
     - stage: npm-targets
       name: "Lint 8-jessie"
       install: skip
       script:
-        - docker run --rm ${DOCKER_USERNAME}/probot-hello:${NODE_VERSION}-$(git rev-parse HEAD) npm run $NPM_TARGET
+        - docker run --rm $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD) npm run $NPM_TARGET
       env:
-        - NODE_VERSION=8-jessie
+        - $DOCKER_USERNAME=8-jessie
         - NPM_TARGET=lint
     - stage: npm-targets
       name: "Test 8-jessie"
       install: skip
       script:
         if branch = master
-        - docker run --rm ${DOCKER_USERNAME}/probot-hello:${NODE_VERSION}-$(git rev-parse HEAD) npm run $NPM_TARGET
+        - docker run --rm $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD) npm run $NPM_TARGET
       env:
-        - NODE_VERSION=8-jessie
+        - $DOCKER_USERNAME=8-jessie
         - NPM_TARGET=coverage
