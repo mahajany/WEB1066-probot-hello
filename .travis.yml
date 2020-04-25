@@ -26,7 +26,7 @@ jobs:
       name: "Test 8-jessie"
       install: skip
       script:
-        - docker run --rm ${DOCKER_USERNAME}/probot-hello:${NODE-VERION}-$(git rev-parse HEAD) npm run $NPM_TARGET
+        - docker run --rm ${DOCKER_USERNAME}/probot-hello:${NODE-VERSION}-$(git rev-parse HEAD) npm run $NPM_TARGET
         - NODE_VERSION=8-jessie
         - NPM_TARGET=test
     - stage: npm-targets
