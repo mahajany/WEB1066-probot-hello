@@ -11,10 +11,10 @@ env:
 
 script:
   - docker login -u "$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker build -t node:$$DOCKER_USERNAME --build-arg=NODE_IMAGE=node:$DOCKER_USERNAME .
+  - docker build -t node:$DOCKER_USERNAME --build-arg=NODE_IMAGE=node:$DOCKER_USERNAME .
   - docker images
-  - docker tag node:$$DOCKER_USERNAME $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD)
-  - docker push  $DOCKER_USERNAME/probot-hello:$$DOCKER_USERNAME-$(git rev-parse HEAD)
+  - docker tag node:$DOCKER_USERNAME $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD)
+  - docker push  $DOCKER_USERNAME/probot-hello:$DOCKER_USERNAME-$(git rev-parse HEAD)
 
 stages:
   - test
