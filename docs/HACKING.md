@@ -17,6 +17,10 @@ docker run  -it --rm \
             -p 3000:3000 probot-hello npm start
 ```
 
+This one worked for me:
+```
+docker run -it --rm -p 3000:3000 probot-hello bash -c "npm start "
+```
 Try opening a browser to http://localhost:3000 to see the probot web start.
 
 # Develop locally
